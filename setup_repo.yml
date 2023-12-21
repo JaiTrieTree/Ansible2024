@@ -1,0 +1,29 @@
+---
+- name: install apache to export repo
+  hosts: localhost
+  tasks:
+  - name: install apache server
+    yum:
+      name: httpd
+      state: latest
+  - name: start apache server
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+  - name: open firewall 
+    firewalld:
+      service: http
+      state: enabled
+      permanent: http
+
+- name: setup the repo directory
+  hosts: localhost
+  tasks:
+  - name: make directory
+    file:
+      path: /var/www/html/repo
+      state: directory
+  - debug:
+      msg: you need to manually copy content from the installation iso to the repo directory
+
